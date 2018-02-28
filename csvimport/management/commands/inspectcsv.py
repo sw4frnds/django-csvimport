@@ -110,15 +110,15 @@ class Command(LabelCommand, CSVParser):
         maximums = self.get_maxlengths(cols)
         for i, col in enumerate(cols):
             length = maximums[i]
-            if types[i] == 'String' and length > 255:
-                types[i] = 'Text'
+            if types[i-1] == 'String' and length > 255:
+                types[i-1] = 'Text'
             integer = length
             decimal = int(length / 2)
             if decimal > 10:
                 decimal = 10
             blank = True
             default = True
-            column = (col, types[i], length, length, integer, decimal, blank, default)
+            column = (col, types[i-1], length, length, integer, decimal, blank, default)
             fieldset.append(column)
         # Import here so that messytables is not a dependency for just using csvimport cmd
         from csvimport.make_model import MakeModel
